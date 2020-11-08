@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Fehdra's Discworld</title>
+
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="scripts/prettyPhoto.css" type="text/css" media="screen" />
+
+	<!--[if IE 6]>
+	<link rel="stylesheet" href="http://www.wphud.themolitor.com/wp-content/themes/wphud/ie6.css" type="text/css" media="screen" />
+	<![endif]-->
+
+	<!--[if lt IE 8]>
+	<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+<div id="formbackground"></div>
+
+<!--TOP BAR-->
+<div id="topBanner">
+
+	<!--LOGIN BUTTON-->
+	<!--div id="loginOpen" class="metaButton"><img SRC="images/profile-trans.png" alt="" height="10" width="9" /> &nbsp;<span>LOGIN</span></div>
+
+	<!--CONTACT BUTTON-->
+	<div id="formOpen" class="metaButton"><img SRC="images/email-trans.png" alt="" height="10" width="18" /> &nbsp;<span>CONTACT</span></div>
+
+	<!--SEARCH BUTTON-->
+	<div id="searchOpen" class="metaButton"><img SRC="images/search-trans.png" alt="" height="10" width="13" /> &nbsp;<span>SEARCH</span></div>
+
+	<!--SITE NAME-->
+	<h1 id="logo"><a HREF="index.html">Fehdra's Script Page</a></h1><!--end logo--> 
+	
+</div><!--end topBanner-->
+
+<!--ANIMATING GIF WHILE PAGE LOADS-->
+<img id="loadingGif" SRC="images/ajax-loader.gif" alt="" />
+	
+<!--THIS IS A MESSAGE FOR USERS WHO HAVE JAVASCRIPT TURNED OFF-->
+<noscript>
+<div id="noScript">
+	<h2>Javascript disabled!</h2>
+	<p>You currently have javascript disabled. This site is best viewed with javascript active. Please turn javascript on and refresh this page.</p>
+</div><!--end noScript-->
+</noscript>
+	
+<div id="content">
+	<div id="scrollContent">
+		<div  class="post">
+			<h2 class="posttitle">Lexx's Currency Converter</h2>
+            ------- To install. Copy and paste the text below into zMUD's Command line at the bottom of the window.-------<br>
+			<div class="entry">
+				<p
+<p
+<Br>
+<p class="mud">
+#CLASS {Lexx's Currency Conv}<br>
+#VAR CAMT {142016112}<br>
+#VAR CAMD {355040.28125}<br>
+#CLASS 0<br>
+#CLASS {Lexx's Currency Conv|Lancre}<br>
+#ALIAS CLaConv {
+  #IF (%1 =~ "-") {#VAR CLaH 0} {#MATH CLaH (%1 * 248832)}<br>
+  #IF (%2 =~ "-") {#VAR CLaSov 0} {#MATH CLaSov (%2 * 20736)}<br>
+  #IF (%3 =~ "-") {#VAR CLaC 0} {#MATH CLaC (%3 * 1728)}<br>
+  #IF (%4 =~ "-") {#VAR CLas 0} {#MATH CLas (%4 * 144)}<br>
+  CLapSplit %-5<br>
+  #MATH CLap (@CLapt * 12)<br>
+  #VAR CLapt 0<br>
+  #MATH CAMT (@CLaH + @CLaSov + @CLaC + @CLas + @CLap)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  }<br>
+#ALIAS CLapSplit {<br>
+  #VAR CLap 0<br>
+  #IF (%1 =~ "-") {#VAR CLap 0} {#IF ("%1" =~ "1/4") {#VAR CLapf %float(0.25)} {#IF ("%1" =~ "1/2") {#VAR CLapf %float(0.5)} {#IF ("%1" =~ "3/4") {#VAR CLapf %float(0.75)} {#VAR CLap %1}}}} {}<br>
+  #IF ("%2") {#IF ("%2" =~ "1/4") {#VAR CLapf %float(0.25)} {#IF ("%2" =~ "1/2") {#VAR CLapf %float(0.5)} {#IF ("%2" =~ "3/4") {#VAR CLapf %float(0.75)}}}} {}<br>
+  #MATH CLapt (@CLap + @CLapf)<br>
+  #VAR CLap 0<br>
+  #VAR CLapf 0<br>
+  }<br>
+#VAR CLaC {19008}<br>
+#VAR CLaH {0}<br>
+#VAR CLap {129}<br>
+#VAR CLas {864}<br>
+#VAR CLaSov {0}<br>
+#VAR CLapt {0}<br>
+#TRIGGER {^{^ }%1 for Lp %2.$} {<br>
+  CLaConv - - - - %2<br>
+  #SUB {%1 for Lp %2 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for Ls %2|%3.} {<br>
+  CLaConv - - - %2 %3<br>
+  #SUB {%1 for Ls %2|%3 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for LC %2|%3|%4.$} {<br>
+  CLaConv - - %2 %3 %4
+  #SUB {%1 for LC %2|%3|%4 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for LSov %2|%3|%4|%5.$} {<br>
+  CLaConv - %2 %3 %4 %5<br>
+  #SUB {%1 for LSov %2|%3|%4|%5 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for LH %2|%3|%4|%5|%6.$} {<br>
+  CLaConv %2 %3 %4 %5 %6
+  #SUB {%1 for LH %2|%3|%4|%5|%6 |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for LC %2|%3|%4.$} {<br>
+  CLaConv - - %2 %3 %4<br>
+  #SUB {%repeat(" ",2)[#%1 for LC %2|%3|%4 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for LH %2|%3|%4|%5|%6.$} {<br>
+  CLaConv %2 %3 %4 %5 %6
+  #SUB {%repeat(" ",2)[#%1 for LH %2|%3|%4|%5|%6 |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for Lp %2.$} {<br>
+  CLaConv - - - - %2
+  #SUB {%repeat(" ",2)[#%1 for Lp %2 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for Ls %2|%3.} {<br>
+  CLaConv - - - %2 %3
+  #SUB {%repeat(" ",2)[#%1 for Ls %2|%3 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for LSov %2|%3|%4|%5.$} {<br>
+  CLaConv - %2 %3 %4 %5
+  #SUB {%repeat(" ",2)[#%1 for LSov %2|%3|%4|%5 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^   %1 for LC %2|%3|%4 ~(%5.$} {<br>
+  CLaConv - - %2 %3 %4<br>
+  #SUB {%repeat(" ",3)%1 for LC %2|%3|%4 |AM$%format(&-.2n,@CAMD)| (%5.}<br>
+  }<br>
+#TRIGGER {^   %1 for LH %2|%3|%4|%5|%6 ~(%7.$} {<br>
+  CLaConv %2 %3 %4 %5 %6<br>
+  #SUB {%repeat(" ",3)%1 for LH %2|%3|%4|%5|%6 |AM$%format(&-.2n,@CAMD)| (%7.}<br>
+  } "" {case}<br>
+#TRIGGER {^   %1 for Lp %2 ~(%3.$} {<br>
+  CLaConv - - - - %2<br>
+  #SUB {%repeat(" ",3)%1 for Lp %2 |AM$%format(&-.2n,@CAMD)| (%3.}<br>
+  }<br>
+#TRIGGER {^   %1 for Ls %2|%3 ~(%4.$} {<br>
+  CLaConv - - - %2 %3<br>
+  #SUB {%repeat(" ",3)%1 for Ls %2|%3 |AM$%format(&-.2n,@CAMD)| (%4.}<br>
+  }<br>
+#TRIGGER {^   %1 for LSov %2|%3|%4|%5 ~(%6.$} {<br>
+  CLaConv - %2 %3 %4 %5
+  #SUB {%repeat(" ",3)%1 for LSov %2|%3|%4|%5 |AM$%format(&-.2n,@CAMD)| (%6.}<br>
+  }<br>
+#TRIGGER {^   %1 for LC %2|%3|%4~;%5.$} {<br>
+  CLaConv - - %2 %3 %4<br>
+  #SUB {%repeat(" ",3)%1 for LC %2|%3|%4 |AM$%format(&-.2n,@CAMD)|~;%5.}<br>
+  }<br>
+#TRIGGER {^   %1 for LH %2|%3|%4|%5|%6~;%7.$} {<br>
+  CLaConv %2 %3 %4 %5 %6<br>
+  #SUB {%repeat(" ",3)%1 for LH %2|%3|%4|%5|%6 |AM$%format(&-.2n,@CAMD)|~;%7.}<br>
+  } "" {case}<br>
+#TRIGGER {^   %1 for Lp %2~;%3.$} {<br>
+  CLaConv - - - - %2<br>
+  #SUB {%repeat(" ",3)%1 for Lp %2 |AM$%format(&-.2n,@CAMD)|~;%3.}<br>
+  }<br>
+#TRIGGER {^   %1 for Ls %2|%3~;%4.$} {<br>
+  CLaConv - - - %2 %3<br>
+  #SUB {%repeat(" ",3)%1 for Ls %2|%3 |AM$%format(&-.2n,@CAMD)|~;%4.}<br>
+  }<br>
+#TRIGGER {^   %1 for LSov %2|%3|%4|%5~;%6.$} {<br>
+  CLaConv - %2 %3 %4 %5<br>
+  #SUB {%repeat(" ",3)%1 for LSov %2|%3|%4|%5 |AM$%format(&-.2n,@CAMD)|~;%6.}<br>
+  }<br>
+#CLASS 0<br>
+#CLASS {Lexx's Currency Conv|Genua}<br>
+#VAR CGeC {0}<br>
+#VAR CGeL {promoting 0}<br>
+#VAR CGeF {0}<br>
+#VAR CGeD {300000}<br>
+#TRIGGER {^   %1 for %2,%3,%4Gf %5$} {<br>
+  #MATH CGeC (%2 * 3000)<br>
+  #MATH CGeL (%3 * 300)<br>
+  #MATH CGeF (%4 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2,%3,%4Gf |AM$%format(&-.2n,@CAMD)| %5}<br>
+  } "" {case}<br>
+#TRIGGER {^   %1 for %2,%3,%4,%5Gd %6$} {<br>
+  #MATH CGeD (%2 * 30000)<br>
+  #MATH CGeC (%3 * 3000)<br>
+  #MATH CGeL (%4 * 300)<br>
+  #MATH CGeF (%5 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF + @CGeD)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2,%3,%4,%5Gd |AM$%format(&-.2n,@CAMD)| %6}<br>
+  }<br>
+#TRIGGER {^   %1 for %2,%3Gl %4$} {<br>
+  #MATH CGeL (%2 * 300) <br>
+  #MATH CGeC (%3 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2,%3Gl |AM$%format(&-.2n,@CAMD)| %4}<br>
+  } "" {case}<br>
+#TRIGGER {^   %1 for %2Gc %3$} {<br>
+  #MATH CGeC (%2 * 3)<br>
+  #VAR CAMT @CGeC<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2Gc |AM$%format(&-.2n,@CAMD)| %3}<br>
+  } "" {case}<br>
+#TRIGGER {^{^ }%1 for %2Gc%3$} {<br>
+  #MATH CGeC (%2 * 3)<br>
+  #VAR CAMT @CGeC<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2Gc |AM$%format(&-.2n,@CAMD)|%3}<br>
+  } "" {case}<br>
+#TRIGGER {^{^ }%1 for %2,%3Gl%4$} {<br>
+  #MATH CGeL (%2 * 300)<br>
+  #MATH CGeC (%3 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2,%3Gl |AM$%format(&-.2n,@CAMD)|%4}<br>
+  } "" {case}<br>
+#TRIGGER {^{^ }%1 for %2,%3,%4Gf%5$} {<br>
+  #MATH CGeC (%2 * 3000)<br>
+  #MATH CGeL (%3 * 300)<br>
+  #MATH CGeF (%4 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2,%3,%4Gf |AM$%format(&-.2n,@CAMD)|%5}<br>
+  } "" {case}<br>
+#TRIGGER {^{^ }%1 for %2,%3,%4,%5Gd%6$} {<br>
+  #MATH CGeD (%2 * 30000)<br>
+  #MATH CGeC (%3 * 3000)<br>
+  #MATH CGeL (%4 * 300)<br>
+  #MATH CGeF (%5 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF + @CGeD)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2,%3,%4,%5Gd |AM$%format(&-.2n,@CAMD)|%6}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for %2Gc.$} {<br>
+  #MATH CGeC (%2 * 3)<br>
+  #VAR CAMT @CGeC<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2Gc |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for %2,%3,%4Gf.$} {<br>
+  #MATH CGeC (%2 * 3000)<br>
+  #MATH CGeL (%3 * 300)<br>
+  #MATH CGeF (%4 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2,%3,%4Gf |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for %2,%3,%4,%5Gd.$} {<br>
+  #MATH CGeD (%2 * 30000)<br>
+  #MATH CGeC (%3 * 3000)<br>
+  #MATH CGeL (%4 * 300)<br>
+  #MATH CGeF (%5 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL + @CGeF + @CGeD)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2,%3,%4,%5Gd |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#TRIGGER {^  ?#%1 for %2,%3Gl.$} {<br>
+  #MATH CGeL (%2 * 300)<br>
+  #MATH CGeC (%3 * 3)<br>
+  #MATH CAMT (@CGeC + @CGeL)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2,%3Gl |AM$%format(&-.2n,@CAMD)|.}<br>
+  } "" {case}<br>
+#CLASS 0<br>
+#CLASS {Lexx's Currency Conv|Djelibeybi}<br>
+#VAR CDjT {1600}<br>
+#TRIGGER "Djel playershop" {^   %1 for DjToon %2~;%3$} {<br>
+  #MATH CDjT (%2 * 200)<br>
+  #MATH CAMD (@CDjT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for DjToon %2 |AM$%format(&-.2n,@CAMD)|~;%3}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for DjToon %2{^each}.{^~(}$} {<br>
+  #MATH CDjT (%2 * 200)<br>
+  #MATH CAMD (@CDjT / %float(400))<br>
+  #SUB {%1 for DjToon %2 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for DjToon %2.$} {<br>
+  #MATH CDjT (%2 * 200)<br>
+  #MATH CAMD (@CDjT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for DjToon %2 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^   %1 for DjToon %2 ~(%3$} {<br>
+  #MATH CDjT (%2 * 200)<br>
+  #MATH CAMD (@CDjT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for DjToon %2 |AM$%format(&-.2n,@CAMD)| ~(%3}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for DjToon %2 each.$} {<br>
+  #MATH CDjT (%2 * 200)<br>
+  #MATH CAMD (@CDjT / %float(400))<br>
+  #SUB {%1 for DjToon %2 |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#CLASS 0<br>
+#CLASS {Lexx's Currency Conv|Agatea}<br>
+#VAR CAgR {142015680}<br>
+#VAR CAgS {432}<br>
+#VAR CAgSa {48}<br>
+#TRIGGER {^{^ }%1 for %2Rh %3s.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAgS (%3 * 4)<br>
+  #MATH CAMT (@CAgR + @CAgS)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2Rh %3s |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for %2Rh %3s.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAgS (%3 * 4)<br>
+  #MATH CAMT (@CAgR + @CAgS)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2Rh %3s |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for %2s.$} {<br>
+  #MATH CAgS (%2 * 4)<br>
+  #MATH CAMD (@CAgS / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2s |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for &%d{CAgSa}s.$} {<br>
+  #MATH CAgS (%2 * 4)<br>
+  #MATH CAMD (@CAgS / %float(400))<br>
+  #SUB {%1 for %2s |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^   %1 for %2Rh %3s %4.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAgS (%3 * 4)<br>
+  #MATH CAMT (@CAgR + @CAgS)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2Rh %3s |AM$%format(&-.2n,@CAMD)| %4.}<br>
+  }<br>
+#TRIGGER {^   %1 for &%d{CAgSa}s %3.$} {<br>
+  #MATH CAgS (%2 * 4)<br>
+  #MATH CAMD (@CAgS / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2s |AM$%format(&-.2n,@CAMD)| %3.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for &%d{saveloy}s each.$} {<br>
+  #MATH CAgS (%2 * 4)<br>
+  #MATH CAMD (@CAgS / %float(400))<br>
+  #SUB {%1 for %2s |AM$%format(&-.2n,@CAMD)| each.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for %2Rh %3s each.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAgS (%3 * 4)<br>
+  #MATH CAMT (@CAgR + @CAgS)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%1 for %2Rh %3s |AM$%format(&-.2n,@CAMD)| each.}<br>
+  }<br>
+#TRIGGER {^   %1 for %2Rh ~(%3.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAMD (@CAgR / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2Rh |AM$%format(&-.2n,@CAMD)| (%3.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for %2Rh.$} {<br>
+  #MATH CAgR (%2 * 480)
+  #MATH CAMD (@CAgR / %float(400))<br>
+  #SUB {%1 for %2Rh |AM$%format(&-.2n,@CAMD)|.}<br>
+  }<br>
+#TRIGGER {^{^ }%1 for %2Rh each.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAMD (@CAgR / %float(400))<br>
+  #SUB {%1 for %2Rh |AM$%format(&-.2n,@CAMD)| each.}<br>
+  }<br>
+#TRIGGER {^  ?#%1 for %2Rh.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAMD (@CAgR / %float(400))<br>
+  #SUB {%repeat(" ",2)[#%1 for %2Rh |AM$%format(&-.2n,@CAMD)|.}
+  }<br>
+#TRIGGER {^   %1 for %2Rh~; %3.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAMD (@CAgR / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2Rh |AM$%format(&-.2n,@CAMD)|~; %3.}<br>
+  }<br>
+#TRIGGER {^   %1 for %2Rh %3s~;%4.$} {<br>
+  #MATH CAgR (%2 * 480)<br>
+  #MATH CAgS (%3 * 4)<br>
+  #MATH CAMT (@CAgR + @CAgS)<br>
+  #MATH CAMD (@CAMT / %float(400))<br>
+  #SUB {%repeat(" ",3)%1 for %2Rh %3s |AM$%format(&-.2n,@CAMD)|~;%4.}<br>
+  }<br>
+#CLASS 0<br>
+
+</p>
+                
+                		
+				<div class="clear"></div>
+        	</div><!--end entry-->
+        
+
+		
+					<!-- <li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8">
+						<div id="div-comment-8" class="comment-body">
+							<img alt='' SRC="images/avatar.jpeg" class='avatar' height='60' width='60' />		
+							<cite class="fn">admin</cite> says:	
+							<div class="commentmetadata">April 1, 2010 at 3:07 am</div>
+							<p>Etiam et orci elit. Nam vulputate condimentum erat, sed sollicitudin magna placerat sit amet. Donec pellentesque justo luctus nulla condimentum porta. Cras eu vehicula dolor. Maecenas ipsum dui, adipiscing id egestas eget, lobortis quis felis. Mauris magna risus, vehicula a cursus id, ornare quis nulla. Phasellus ut erat erat, eu feugiat justo. Aliquam euismod scelerisque massa ac egestas. Phasellus vulputate mollis pretium. Nullam imperdiet consectetur justo.</p>
+						</div>
+					</li>
+				</ol>
+        	</div><!--end commentsection-->
+
+		</div><!--end post-->
+  
+		<div class="clear"></div>
+	</div><!--end scrollContent-->
+</div><!--end content-->
+
+<!--NAVIGATION-->
+<div id="menu">
+	<div id="menuHint">MENU</div>
+	
+	<div id="menuScroll">	
+		<ul id="dropmenu">
+			<li><a HREF="index.html">Home</a></li>
+    		<li><a HREF="Scripts.html" title="Scripts">Scripts</a></li>
+			<li><a HREF="Maps.html" title="Maps">ZMud Map & Pics</a></li>
+        	<li><a HREF="Updates.html" title="Updates">Updates</a>>
+				<ul class='children'>
+					<li><a href="#" title="Sub Page">Sub Page</a></li>
+					<li><a href="#" title="Sub Pages">Sub Pages</a>
+						<ul class='children'>
+							<li><a href="#" title="Sub Sub Page">Sub Sub Page</a></li>
+							<li><a href="#" title="Sub Sub Page Again">Sub Sub Page Again</a>
+								<ul class='children'>
+									<li><a href="#" title="Sub Sub Sub Page">Sub Sub Sub Page</a></li>
+									<li><a href="#" title="Sub Sub Sub Page">Sub Sub Sub Page</a>
+										<ul class='children'>
+											<li><a href="#" title="Sub Sub Sub Sub Page">Sub Sub Sub Sub Page</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+		</ul><!--end dropmenu-->
+	</div><!--end menuScroll-->
+</div><!--end menu-->
+
+<!-- <div id="sidebar">
+	<div id="sidebarHint">MORE</div>
+	
+	<div id="sidebarScroll">
+		<ul>
+			<li class="widget">
+				<h2 class="widgettitle">Design Options (15 of 20)</h2>
+				<div class="textwidget"><div id="nebula" class="design"></div>
+				<div id="wood" class="design"></div>
+				<div id="two" class="design"></div>
+				<div id="starfield" class="design"></div>
+				<div id="starfieldTwo" class="design"></div>
+				<div id="nebulaTwo" class="design"></div>
+				<div id="one" class="design"></div>
+				<div id="woodTwo" class="design"></div>
+				<div id="dark" class="design"></div>
+				<div id="darker" class="design"></div>
+				<div id="light" class="design"></div>
+				<div id="grunge" class="design"></div>
+				<div id="grungeTwo" class="design"></div>
+				<div id="three" class="design"></div>
+				<div id="grungeThree" class="design"></div>
+				<div class="clear"></div></div>
+			</li>
+			
+			<li class="widget widget_text">
+				<h2 class="widgettitle">Sponsors</h2>
+				<a HREF=""><img SRC="" /></a>
+				<br />
+				<br />
+				<a HREF=""><img SRC="" alt="" /></a>
+			</li>
+			
+			<li class="widget">
+				<h2 class="widgettitle">Text Block</h2>			
+				Bla bla 
+			</li>
+		</ul>
+	</div><!--end sidebarScroll-->
+</div><!--end sidebar-->
+
+<!--FOOTER-->
+<div id="footerBanner">  
+	<!--NEWSTICKER-->
+	<div class="fadein">
+		<div class="newsTick"><a HREF="Maps.html"><strong>News Ticker</strong>: Zmud DW-Map added</a></div>
+        <div class="newsTick"><a HREF="Scripts.html"><strong>News Ticker</strong>: Zmud Scripts added</a></div>
+
+	</div><!--end fadein-->
+		
+	<a id="rss" class="socialBtn" href="http://dwwiki.mooo.com:8080/wiki/Main_Page"></a>
+	
+	<a id="facebook" class="socialBtn" HREF="http://daftjunk.com/dw/"></a>
+	<a id="youtube" class="socialBtn" HREF="http://discworld.starturtle.net/lpc/"></a>
+</div><!--end footerBanner-->
+
+<!--CONTACT FORM-->
+<div id="contactform"  class="contact flyer">
+	<div class="close">X</div>
+	<form action="#" method="post" >    	<h4>Send Email Broken sorry</h4>    
+    	<p>
+    		<input type="text" name="name" id="name" value="" class="input" /> 
+    		<label class="smallInput" for="name">Name:</label>
+    	</p>
+    	<p>
+    		<input type="text" name="email" id="email" value="" class="input" /> 
+    		<label class="smallInput" for="email">Email:</label>
+    	</p>
+    	<p>
+    		<textarea name="message" id="message" class="input"></textarea>
+    		<label class="smallInput" for="message">Message:</label>
+    	</p>
+    	<input name="subject" id="subject" type="hidden" value="HUD Email Message" />
+    	
+    	<input name="repemail" id="repemail" type="hidden" value="Fehdra@comcast.net" />
+    	<input name="send" id="submit_btn" type="submit" class="button" value="Send Message" />
+    </form>
+</div><!--end contact-->
+
+<!--SEARCH FORM-->
+<div id="searching" class="flyer">
+	<div class="close">X</div>
+	<h4>Search Borken. Idk how to make it work</h4>
+	<form method="get" id="searchform" action="">
+		<label class="hidden" for="s">Search for:</label>
+		<input type="text" value="Search" onfocus="this.value=''; this.onfocus=null;" name="s" id="s" />
+        <input type="submit" id="searchsubmit" value="GO!" />    
+	</form>
+</div><!--end searching-->
+
+<!--LOGIN FORM-->
+
+
+<script SRC="scripts/scripts.js" type="text/javascript"></script>
+<script type="text/javascript">
+jQuery.noConflict(); jQuery(document).ready(function(){
+	//SLIDER STUFF
+	jQuery('#slider').fadeIn(400).nivoSlider({
+		effect:'random',
+		slices:15,
+		animSpeed:500,
+		pauseTime:5000,
+		directionNav:true,
+		directionNavHide:false, //Only show on hover
+		controlNav:true, //1,2,3...
+		pauseOnHover:true, //Stop animation while hovering
+		manualAdvance:false, //Force manual transitions
+		beforeChange: function(){},
+		afterChange: function(){}
+	});
+	var negativemargin = jQuery(".nivo-controlNav").outerWidth() / 2;
+	jQuery(".nivo-controlNav").css("marginLeft",-negativemargin);
+	
+	//TYPEWRITER EFFECT
+	jQuery('.listing p > a, small > a, .comment-meta > a, h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a').jTypeWriter({duration:1, sequential:false});
+		
+	//BACKGROUND CHANGER
+	jQuery(".design").click(function() {
+		var background = jQuery(this).css("backgroundImage");
+		jQuery("body").css("backgroundImage",background);
+	});	
+});
+</script>
+
